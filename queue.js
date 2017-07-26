@@ -57,7 +57,7 @@ Queue.prototype.contains = function(value) {
 
 Queue.prototype.until = function(value) {
   let spot;
-  for (let k=this.front; k<=this.end; k++){
+  for (let k=this.front; k<this.end; k++){
     if (this.storage[String(k)] === value) {
       spot = k;
       break;
