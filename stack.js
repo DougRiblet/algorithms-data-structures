@@ -2,11 +2,15 @@
 // DO NOT use an array and the native push/pop method in your implementation.
 // Use an object as the underlying data structure.
 
+// Constructor for stack with capacity limit
+
 function Stack(capacity) {
   this.storage = {};
   this.capacity = capacity || Infinity;
   this.topmost = 0;
 }
+
+// Methods for stack                                                                                ; time complexity noted after each
 
 Stack.prototype.push = function(value) {
   if (this.topmost < this.capacity) {
