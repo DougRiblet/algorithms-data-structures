@@ -16,13 +16,10 @@
 
 function insertionSort (input) {
   let curr = 1;
-
   while(curr < input.length){
-    console.log(String(curr), ": ", input);
     let c = curr;
     for (let j=curr-1; j>=0; j--){
       if (input[j] > input[c]){
-        console.log("swap: ", input[j], input[c]);
         let temp = input[j];
         input[j] = input[c];
         input[c] = temp;
