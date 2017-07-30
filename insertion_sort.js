@@ -62,6 +62,6 @@ function insertionSortWithComparator (input, comparator) {
 
 let arrOfObj = [{value: 15}, {value: 10, order: 1}, {value: 10, order: 2}];
 
-const valcomp = (a,b) => a.value > b.value;
+const valueComp = (a,b) => a.value > b.value;
 
-insertionSortWithComparator(arrOfObj, valcomp);
+insertionSortWithComparator(arrOfObj, valueComp);
