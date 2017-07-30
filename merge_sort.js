@@ -4,9 +4,6 @@
 // merge two sorted subarrays into one sorted array.
 
 // Recursive top-down approach:
-// Recursively break down array into two subarrays and sort them recursively. 
-// Subarrays are broken down until they have only 1 element
-// (implying they are sorted).
 
 function mergeSortRec(arr){
   if (arr.length<2) { return arr; }
@@ -18,8 +15,6 @@ function mergeSortRec(arr){
 // Time complexity for merge sort recursive: logarithmic ... O(n log(n))
 
 // Iterative bottom-up approach:
-// Split array into sublists of size 1, merge adjacent sublists
-// into sorted lists, repeat until no more sublists.
 
 function mergeSortItv(arr){
   let arrOfArrs = arr.map(x=>[x]);
