@@ -10,7 +10,7 @@ function Stack(capacity) {
   this.topmost = 0;
 }
 
-// Methods for stack                                                                                ; time complexity noted after each
+// Methods for stack; time complexity noted after each
 
 Stack.prototype.push = function(value) {
   if (this.topmost < this.capacity) {
