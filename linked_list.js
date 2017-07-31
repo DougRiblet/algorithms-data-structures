@@ -17,14 +17,24 @@ function LinkedList(headValue) {
 // Exercise: implement these methods
 
 LinkedList.prototype.forEach = function(callback) {
-  // implement me...
+  let curnode = this.head;
+  while(curnode){
+    callback(curnode.value);
+    curnode = curnode.next;
+  }
 };
-// Time complexity:
+// Time complexity for forEach: linear ... O(n)
 
 LinkedList.prototype.print = function() {
-  // implement me...
+  let arr = [];
+  let curnode = this.head;
+  while(curnode){
+    arr.push(curnode.value);
+    curnode = curnode.next;
+  }
+  return arr.map(String).join(", ");
 };
-// Time complexity:
+// Time complexity for print: linear ... O(n)
 
 LinkedList.prototype.insertAfter = function(node, value) {
   // implement me...
@@ -37,9 +47,11 @@ LinkedList.prototype.removeAfter = function(node) {
 // Time complexity:
 
 LinkedList.prototype.insertHead = function(value) {
-  // implement me...
+  let newHead = new Node(value);
+  newHead.next = this.head;
+  this.head = newHead;
 };
-// Time complexity:
+// Time complexity for insertHead: constant ... O(1);
 
 LinkedList.prototype.removeHead = function() {
   // implement me...
