@@ -14,7 +14,7 @@ function LinkedList(headValue) {
   this.head = new Node(headValue);
 }
 
-// Exercise: implement these methods
+// Exercise: implement these methods, note time complexity for each
 
 LinkedList.prototype.forEach = function(callback) {
   let curnode = this.head;
@@ -37,57 +37,88 @@ LinkedList.prototype.print = function() {
 // Time complexity for print: linear ... O(n)
 
 LinkedList.prototype.insertAfter = function(node, value) {
-  // implement me...
+  let moveNext = node.next;
+  node.next = new Node(value);
+  node.next.next = moveNext;
+  return value;
 };
-// Time complexity:
+// Time complexity for insertAfter: constant ... O(1)
 
 LinkedList.prototype.removeAfter = function(node) {
-  // implement me...
+  if (node.next !== null){
+    let next2 = node.next.next;
+    let removedNode = node.next;
+    node.next = next2;
+    return removedNode.value;
+  } else {
+    return "Nothing to remove";
+  }
 };
-// Time complexity:
+// Time complexity for removeAfter: constant ... O(1)
 
 LinkedList.prototype.insertHead = function(value) {
   let newHead = new Node(value);
   newHead.next = this.head;
   this.head = newHead;
+  return this.head.value;
 };
-// Time complexity for insertHead: constant ... O(1);
+// Time complexity for insertHead: constant ... O(1)
 
 LinkedList.prototype.removeHead = function() {
-  // implement me...
-}
+  if (this.head){
+    let removed = this.head.value;
+    this.head = this.head.next;
+    return removed;
+  } else {
+    return "Nothing to remove";
+  }
+};
+// Time complexity for removeHead: constant ... O(1)
 
 LinkedList.prototype.findNode = function(value) {
-  // implement me...
+  let curnode = this.head;
+  while (curnode) {
+    if (curnode.value === value){
+      return curnode;
+    } else {
+      curnode = curnode.next;
+    }
+  }
+  return "Value not found";
 };
-// Time complexity:
+// Time complexity for findNode: linear ... O(n)
 
 LinkedList.prototype.appendToTail = function(value) {
-  // implement me...
+  let curnode = this.head;
+  while (curnode) {
+    if (curnode.next === null){
+      curnode.next = new Node(value);
+      return curnode.next.value;
+    } else {
+      curnode = curnode.next;
+    }
+  }
 };
-// Time complexity:
+// Time complexity for appendToTail without this.tail: linear ... O(n)
 
-
-// PART 2:
-
-LinkedList.prototype.insertBefore = function(node, value) {
-  // implement me...
+LinkedList.prototype.removeTail = function(value) {
+  if (!this.head) {
+    return "Nothing to remove";
+  } else if (!this.head.next) {
+    let removed = this.head.value;
+    this.head = null;
+    return removed;
+  } else {
+    let curnode = this.head;
+    while(curnode) {
+      if (curnode.next.next === null) {
+        let removed = curnode.next.value;
+        curnode.next = null;
+        return removed;
+      } else {
+        curnode = curnode.next;
+      }
+    }
+  }
 };
-// Time complexity:
-
-LinkedList.prototype.removeBefore = function(node) {
-  // implement me...
-};
-// Time complexity:
-
-
-
-
-
-
-
-
-
-
-
-
+// Time complexity for removeTail without this.tail: linear ... O(n)
