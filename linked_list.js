@@ -47,9 +47,9 @@ LinkedList.prototype.insertAfter = function(node, value) {
 LinkedList.prototype.removeAfter = function(node) {
   if (node.next !== null){
     let next2 = node.next.next;
-    let removedNode = node.next;
+    let removed = node.next.value;
     node.next = next2;
-    return removedNode.value;
+    return removed;
   } else {
     return "Nothing to remove";
   }
@@ -122,3 +122,69 @@ LinkedList.prototype.removeTail = function(value) {
   }
 };
 // Time complexity for removeTail without this.tail: linear ... O(n)
+
+
+// ========================================
+// === OPTIMIZATION: THIS.TAIL PROPERTY ===
+// ========================================
+
+function LinkedListWithTail(headValue) {
+  if (headValue === undefined) console.log('Must provide value for first node');
+  this.head = this.tail = new Node(headValue);
+}
+
+LinkedListWithTail.prototype.appendToTail = function(value) {
+  this.tail.next = new Node(value);
+  this.tail = this.tail.next;
+  return value;
+};
+// Time complexity for appendToTail with this.tail: constant ... O(1)
+
+LinkedListWithTail.prototype.removeTail = function(value) {
+  if (!this.head) {
+    return "Nothing to remove";
+  } else if (!this.head.next) {
+    let removed = this.head.value;
+    this.head = this.tail = null;
+    return removed;
+  } else {
+    let curnode = this.head;
+    while(curnode) {
+      if (curnode.next.next === null) {
+        let removed = curnode.next.value;
+        curnode.next = null;
+        this.tail = curnode;
+        return removed;
+      } else {
+        curnode = curnode.next;
+      }
+    }
+  }
+};
+// Time complexity for removeTail with this.tail: linear ... O(n)
+
+LinkedListWithTail.prototype.insertAfter = function(node, value) {
+  let moveNext = node.next;
+  node.next = new Node(value);
+  node.next.next = moveNext;
+  if (this.tail === node) {
+    this.tail = node.next;
+  }
+  return value;
+};
+// Time complexity for insertAfter with this.tail: constant ... O(1)
+
+LinkedListWithTail.prototype.removeAfter = function(node) {
+  if (node.next !== null){
+    if (node.next === this.tail) {
+      this.tail = node;
+    }
+    let next2 = node.next.next;
+    let removed = node.next.value;
+    node.next = next2;
+    return removed;
+  } else {
+    return "Nothing to remove";
+  }
+};
+// Time complexity for removeAfter with this.tail: constant ... O(1)
