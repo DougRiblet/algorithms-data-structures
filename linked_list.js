@@ -188,3 +188,12 @@ LinkedListWithTail.prototype.removeAfter = function(node) {
   }
 };
 // Time complexity for removeAfter with this.tail: constant ... O(1)
+
+LinkedListWithTail.prototype.insertHead = function(value) {
+  let newHead = new Node(value);
+  newHead.next = this.head;
+  this.head = newHead;
+  if (this.tail === null) { this.tail = this.head }
+  return this.head.value;
+};
+// Time complexity for insertHead with this.tail: constant ... O(1)
