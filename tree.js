@@ -1,4 +1,3 @@
-
 // https://github.com/kuychaco/algoClass/blob/master/data-structures/tree.js
 
 // Abstract data type
@@ -35,7 +34,7 @@ Tree.prototype.contains = function(value) {
       return;
     } else {
       for (let x=0; x<node.children.length; x++){
-        return recursiveCheck(node.children[x], val);
+        recursiveCheck(node.children[x], val);
       }
     }
   }
@@ -44,6 +43,20 @@ Tree.prototype.contains = function(value) {
 };
 // Time complexity for contains: linear ... O(n);
 
+// TESTS FOR ADDCHILD & CONTAINS:
+// var tree = new Tree(1);
+// var branch1 = tree.addChild(2);
+// var branch2 = tree.addChild(3);
+// var branch3 = tree.addChild(4);
+// branch1.addChild(5);
+// branch1.addChild(6);
+// branch3.addChild(7).addChild(8);
+// console.log(tree.contains(4), "should be true");
+// console.log(tree.contains(9), "should be false");
+// console.log(tree.contains(6), "should be true");
+// console.log(tree.contains(7), "should be true");
+// console.log(tree.contains(8), "should be true");
+// console.log(tree.contains(14), "should be false");
 
 Tree.prototype.traverseDepthFirst = function(fn) {
   // implement me...
