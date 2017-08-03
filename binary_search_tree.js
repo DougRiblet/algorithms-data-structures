@@ -108,3 +108,17 @@ BinarySearchTree.prototype.traverseDepthFirst_postOrder = function(fn) {
   fn(this);
 };
 // Time complexity for traverseDepthFirst_postOrder: linear ... O(n)
+
+BinarySearchTree.prototype.checkIfFull = function() {
+  let answer = true;
+  this.traverseDepthFirst_inOrder(function(nod){
+    if ((!nod.left && nod.right)||(nod.left && !nod.right)) { answer = false }
+  });
+  return answer;
+};
+// Time complexity for checkIfFull: linear ... O(n)
+
+BinarySearchTree.prototype.checkIfBalanced = function() {
+  // implement me...
+};
+// Time complexity:
