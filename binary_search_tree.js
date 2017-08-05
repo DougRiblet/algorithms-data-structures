@@ -223,33 +223,30 @@ BinarySearchTree.prototype.delete = function(value){
   
   // edge case -- what if node to be deleted is the root ???
   if (this.value === value){
+    let rootNode = this;
     if(!this.left && !this.right){
-      let onlyOneNode = this;
-      onlyOneNode = null;
-      return onlyOneNode;
+      rootNode = null;
+      return rootNode;
     } else if (this.left && !this.right){
-      let root = this;
       let oldleft = this.left;
-      root.value = oldleft.value;
-      root.left = oldleft.left;
-      return root;
+      rootNode.value = oldleft.value;
+      rootNode.left = oldleft.left;
+      return rootNode;
     } else if (!this.left && this.right){
-      let root = this;
       let oldright = this.right;
-      root.value = oldright.value;
-      root.right = oldright.right;
-      return root;
+      rootNode.value = oldright.value;
+      rootNode.right = oldright.right;
+      return rootNode;
     } else if (this.left && this.right){
-      let root = this;
       // Just going left for new root, no attempt to balance
       if (!this.left.left && !this.left.right){
-        root.value = this.left.value;
-        root.left = null;
-        return root;
+        rootNode.value = this.left.value;
+        rootNode.left = null;
+        return rootNode;
       } else if (this.left.left && !this.left.right){
-        root.value = this.left.value;
-        root.left = this.left.left;
-        return root;
+        rootNode.value = this.left.value;
+        rootNode.left = this.left.left;
+        return rootNode;
       } else {
         // Find highest value on left subtree
         let curParent = this.left;
@@ -269,9 +266,9 @@ BinarySearchTree.prototype.delete = function(value){
             break;
           }
         }
-        root.value = newRootValue;
+        rootNode.value = newRootValue;
       }
-      return root;
+      return rootNode;
     }
   }
   
