@@ -47,6 +47,7 @@ BinarySearchTree.prototype.insert = function(value) {
   return this;
 };
 // Time complexity for insert: logarithmic ... O(log(n))
+// Worst-case: approaches linear if BST highly unbalanced
 
 BinarySearchTree.prototype.contains = function(value) {
   let answer = false;
@@ -66,6 +67,7 @@ BinarySearchTree.prototype.contains = function(value) {
   return answer;
 };
 // Time complexity for contains: logarithmic ... O(log(n))
+// Worst-case: approaches linear if BST highly unbalanced
 
 // METHODS: Three types of BST traversal
 // (1) In-Order traversal is most common
@@ -118,6 +120,33 @@ BinarySearchTree.prototype.traverseDepthFirst_postOrder = function(fn) {
 };
 // Time complexity for traverseDepthFirst_postOrder: linear ... O(n)
 
+
+// METHOD: checkIfValid
+// Determine whether a binary tree is a valid binary search tree
+
+BinarySearchTree.prototype.checkIfValid = function () {
+  if (this === null) { return true }
+  let answer = true;
+  
+  function recursiveCheck(nd, lo, hi){
+    if (nd.value <= lo || nd.value >= hi){
+      answer = false;
+      return;
+    }
+    if (nd.left){
+      recursiveCheck(nd.left, lo, nd.value);
+    }
+    if (nd.right){
+      recursiveCheck(nd.right, nd.value, hi);
+    }
+  }
+  
+  recursiveCheck(this, Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY);
+  
+  return answer;
+};
+// Time complexity for checkIfValid: linear ... O(n)
+
 // METHOD: checkIfFull
 // A binary tree is full if every node has either 
 // zero or two children (no nodes have only one child)
@@ -158,3 +187,150 @@ BinarySearchTree.prototype.checkIfBalanced = function() {
   return Math.max(...leafDepths) - Math.min(...leafDepths) <= 1;
 };
 // Time complexity for checkIfBalanced: linear ... O(n)
+
+// METHOD: checkIfPerfect
+// http://www.codewars.com/kata/fun-with-trees-is-perfect
+// A perfect binary tree is a binary tree in which all interior nodes
+// have two children and all leaves have the same depth or same level.
+
+BinarySearchTree.prototype.checkIfPerfect = function(){
+  if (this === null) { return true }
+  let full = true;
+  let depths = [];
+  function traverse(nod,dep){
+    if (!nod.left && !nod.right){
+      depths.push(dep);
+      return;
+    } else if ((!nod.left && nod.right)||(nod.left && !nod.right)){
+      full = false;
+      return;
+    } else {
+      traverse(nod.left,dep+1);
+      traverse(nod.right,dep+1);
+    }
+  }
+  traverse(this,0);
+  return full && (Math.max(...depths) - Math.min(...depths) === 0);
+};
+// Time complexity for checkIfPerfect: linear ... O(n)
+
+
+// METHOD: delete
+
+BinarySearchTree.prototype.delete = function(value){
+  // edge case -- what if BST is empty, ie root is null ???
+  if (this === null) { return this }
+  
+  // edge case -- what if node to be deleted is the root ???
+  if (this.value === value){
+    if(!this.left && !this.right){
+      let onlyOneNode = this;
+      onlyOneNode = null;
+      return onlyOneNode;
+    } else if (this.left && !this.right){
+      let root = this;
+      let oldleft = this.left;
+      root.value = oldleft.value;
+      root.left = oldleft.left;
+      return root;
+    } else if (!this.left && this.right){
+      let root = this;
+      let oldright = this.right;
+      root.value = oldright.value;
+      root.right = oldright.right;
+      return root;
+    } else if (this.left && this.right){
+      let root = this;
+      // Just going left for new root, no attempt to balance
+      if (!this.left.left && !this.left.right){
+        root.value = this.left.value;
+        root.left = null;
+        return root;
+      } else if (this.left.left && !this.left.right){
+        root.value = this.left.value;
+        root.left = this.left.left;
+        return root;
+      } else {
+        // Find highest value on left subtree
+        let curParent = this.left;
+        let curChild = this.left.right;
+        let newRootValue;
+        while (curChild){
+          if (curChild.right){
+            curParent = curChild;
+            curChild = curChild.right;
+          } else {
+            newRootValue = curChild.value;
+            if (!curChild.left){
+              curParent.right = null;
+            } else {
+              curParent.right = curChild.left;
+            }
+            break;
+          }
+        }
+        root.value = newRootValue;
+      }
+      return root;
+    }
+  }
+  
+  // This function won't have to deal with edge cases,
+  // so 'par' and 'dir' will always be set when 'dva' found
+  function recursiveDelete(nod, dva, par, dir){
+    if (!nod) { return }
+    if (nod.value === dva){
+      if (!nod.left && !nod.right){
+        par[dir] = null;
+        return;
+      } else if (nod.left && !nod.right){
+        par[dir] = nod.left;
+        return;
+      } else if (!nod.left && nod.right){
+        par[dir] = nod.right;
+        return;
+      } else if (nod.left && nod.right){
+        // Implement the two-children case
+        if (!nod.left.left && !nod.left.right){
+          nod.value = nod.left.value;
+          nod.left = null;
+          return;
+        } else if (nod.left.left && !nod.left.right){
+          nod.value = nod.left.value;
+          nod.left = nod.left.left;
+          return;
+        } else if (nod.left.left && nod.left.right){
+          // Find highest value on left subtree
+          let curParent = nod.left;
+          let curChild = nod.left.right;
+          let newNodValue;
+          while (curChild){
+            if (curChild.right){
+              curParent = curChild;
+              curChild = curChild.right;
+            } else {
+              newNodValue = curChild.value;
+              if (!curChild.left){
+                curParent.right = null;
+              } else {
+                curParent.right = curChild.left;
+              }
+              break;
+            }
+          }
+          nod.value = newNodValue;
+        }
+      }
+    } else if (nod.value < dva){
+      recursiveDelete(nod.right, dva, nod, 'right');
+    } else if (nod.value > dva){
+      recursiveDelete(nod.left, dva, nod, 'left');
+    }
+  }
+  
+  recursiveDelete(this, value, null, null);
+  return this;
+  
+};
+// Time complexity for delete: logarithmic ... O(log(n))
+// Worst-case: approaches linear if BST highly unbalanced
