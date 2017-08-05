@@ -120,7 +120,6 @@ BinarySearchTree.prototype.traverseDepthFirst_postOrder = function(fn) {
 };
 // Time complexity for traverseDepthFirst_postOrder: linear ... O(n)
 
-
 // METHOD: checkIfValid
 // Determine whether a binary tree is a valid binary search tree
 
@@ -214,7 +213,6 @@ BinarySearchTree.prototype.checkIfPerfect = function(){
 };
 // Time complexity for checkIfPerfect: linear ... O(n)
 
-
 // METHOD: delete
 
 BinarySearchTree.prototype.delete = function(value){
@@ -287,7 +285,6 @@ BinarySearchTree.prototype.delete = function(value){
         par[dir] = nod.right;
         return;
       } else if (nod.left && nod.right){
-        // Implement the two-children case
         if (!nod.left.left && !nod.left.right){
           nod.value = nod.left.value;
           nod.left = null;
