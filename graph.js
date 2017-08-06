@@ -34,8 +34,9 @@ Graph.prototype.addEdge = function(value1, value2) {
 
 Graph.prototype.removeNode = function(value) {
   delete this._nodes[value];
+  const notRemoved = x => x!==value;
   for (let key in this._nodes){
-    this._nodes[key] = this._nodes[key].filter(x=>x!==value);
+    this._nodes[key] = this._nodes[key].filter(notRemoved);
   }
 };
 // Time complexity for removeNode: quadratic ... O(n^2)
@@ -57,3 +58,26 @@ Graph.prototype.hasEdge = function(value1, value2) {
   return this._nodes[value1].includes(value2);
 };
 // Time complexity for hasEdge: linear ... O(n)
+
+Graph.prototype.forEach = function(func) {
+  for (var key in this._nodes) {
+    func(key, this._nodes[key], this._nodes);
+  }
+};
+// Time complexity for forEach: linear ... O(n)
+
+Graph.prototype.traverseDepthFirst = function(value, fn, visited={}, distance=0) {
+  fn(value, distance);
+  visited[value] = true;
+  for (let x=0; x<this._nodes[value].length; x++){
+    if (!visited[this._nodes[value][x]]){
+      this.traverseDepthFirst(this._nodes[value][x], fn, visited, distance+1);
+    }
+  }
+};
+// Time complexity:
+
+Graph.prototype.traverseBreadthFirst = function(value, fn) {
+  // implement me...
+};
+// Time complexity:
