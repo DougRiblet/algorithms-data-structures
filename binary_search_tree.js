@@ -43,7 +43,6 @@ BinarySearchTree.prototype.insert = function(value) {
   }
 
   recursiveFind(this, value);
-
   return this;
 };
 // Time complexity for insert: logarithmic ... O(log(n))
@@ -69,7 +68,12 @@ BinarySearchTree.prototype.contains = function(value) {
 // Time complexity for contains: logarithmic ... O(log(n))
 // Worst-case: approaches linear if BST highly unbalanced
 
-// METHODS: Three types of BST traversal
+// *************************
+// ******* TRAVERSAL *******
+// *************************
+
+// Three methods of depth-first traversal
+
 // (1) In-Order traversal is most common
 // Visit left branch, then current node, than right branch
 // For BST, this visits nodes in ascending order (hence the name)
@@ -120,6 +124,8 @@ BinarySearchTree.prototype.traverseDepthFirst_postOrder = function(fn) {
 };
 // Time complexity for traverseDepthFirst_postOrder: linear ... O(n)
 
+// Breadth-first visits all children before moving to next-level children
+
 BinarySearchTree.prototype.traverseBreadthFirst = function(fn) {
   let queue = [this];
   while (queue.length > 0){
@@ -129,6 +135,11 @@ BinarySearchTree.prototype.traverseBreadthFirst = function(fn) {
     fn(curr);
   }
 };
+// Time complexity for traverseBreadthFirst: linear ... O(n)
+
+// *************************
+// ******* CHECKING ********
+// *************************
 
 // METHOD: checkIfValid
 // Determine whether a binary tree is a valid binary search tree
@@ -224,6 +235,8 @@ BinarySearchTree.prototype.checkIfPerfect = function(){
 // Time complexity for checkIfPerfect: linear ... O(n)
 
 // METHOD: delete
+// Remove node from binary search tree
+// (This can get tricky, especially if deleted node has two children)
 
 BinarySearchTree.prototype.delete = function(value){
   // edge case -- what if BST is empty, ie root is null ???
@@ -338,5 +351,3 @@ BinarySearchTree.prototype.delete = function(value){
 };
 // Time complexity for delete: logarithmic ... O(log(n))
 // Worst-case: approaches linear if BST highly unbalanced
-
-
