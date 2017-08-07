@@ -35,6 +35,7 @@ function HashTable(capacity) {
 // (b) determines if this key has already been stored; 
 //     - if yes, points to the existing matched object and its index in bucket;
 //     - if no, match and matchIndex will be undefined
+
 HashTable.prototype.find = function(key) {
   let index = simpleHash(key, this._size);
   if (!this._storage[index]) { this._storage[index] = [] }
@@ -50,6 +51,8 @@ HashTable.prototype.find = function(key) {
   return {match, bucket, matchIndex};
 };
 
+// Method 'set': change value for existing key, or add new key-value pair
+
 HashTable.prototype.set = function(key, value) {
   let {match, bucket} = this.find(key);
   if (match) {
@@ -57,7 +60,7 @@ HashTable.prototype.set = function(key, value) {
   } else {
     let newObj = {};
     newObj[key] = value;
-    bucket.push(newObj)
+    bucket.push(newObj);
     this._count++;
     // call resize function here if needed
   }
@@ -100,7 +103,7 @@ HashTable.prototype.forEach = function(callback) {
         callback(tuple);
       });
     }
-  })
+  });
 };
 // Time complexity for forEach: linear ... O(n)
 
