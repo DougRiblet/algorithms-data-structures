@@ -59,12 +59,33 @@ Tree.prototype.contains = function(value) {
 // console.log(tree.contains(14), "should be false");
 
 Tree.prototype.traverseDepthFirst = function(fn) {
-  // implement me...
+  fn(this.value);
+  if (this.children.length === 0) {
+    return;
+  } else {
+    for (let x=0; x<this.children.length; x++){
+      this.children[x].traverseDepthFirst(fn);
+    }
+  }
 };
-// Time complexity:
+// Time complexity for traverseDepthFirst: linear ... O(n)
 
+Tree.prototype.traverseDFBottomUp = function(fn) {
+  if (this.children.length > 0) {
+    for (let x=0; x<this.children.length; x++){
+      this.children[x].traverseDFBottomUp(fn);
+    }
+  }
+  fn(this.value);
+};
 
 Tree.prototype.traverseBreadthFirst = function(fn) {
-  // implement me...
+  let fnQueue = [this];
+  const pushEach = (item) => { fnQueue.push(item) };
+  while (fnQueue.length > 0) {
+    let curTree = fnQueue.shift();
+    curTree.children.forEach(pushEach);
+    fn(curTree.value);
+  } 
 };
-// Time complexity:
+// Time complexity for traverseBreadthFirst: linear ... O(n)
