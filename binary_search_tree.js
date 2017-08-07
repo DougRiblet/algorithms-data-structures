@@ -120,6 +120,16 @@ BinarySearchTree.prototype.traverseDepthFirst_postOrder = function(fn) {
 };
 // Time complexity for traverseDepthFirst_postOrder: linear ... O(n)
 
+BinarySearchTree.prototype.traverseBreadthFirst = function(fn) {
+  let queue = [this];
+  while (queue.length > 0){
+    let curr = queue.shift();
+    if (curr.left) { queue.push(curr.left) }
+    if (curr.right) { queue.push(curr.right) }
+    fn(curr);
+  }
+};
+
 // METHOD: checkIfValid
 // Determine whether a binary tree is a valid binary search tree
 
@@ -328,3 +338,5 @@ BinarySearchTree.prototype.delete = function(value){
 };
 // Time complexity for delete: logarithmic ... O(log(n))
 // Worst-case: approaches linear if BST highly unbalanced
+
+
