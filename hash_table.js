@@ -89,7 +89,8 @@ HashTable.prototype.delete = function(key) {
   }
   return Boolean(match);
 };
-// Time complexity for delete: constant ... O(1)
+// Time complexity for delete: amortized constant ... O(1)
+// amortized = extra time if delete requires hash table resizing
 
 HashTable.prototype.count = function() {
   return this._count;
@@ -97,9 +98,9 @@ HashTable.prototype.count = function() {
 // Time complexity for count: constant ... O(1)
 
 HashTable.prototype.forEach = function(callback) {
-  this._storage.forEach(function(bin){
-    if (bin){
-      bin.forEach(function(tuple){
+  this._storage.forEach(function(bucket){
+    if (bucket){
+      bucket.forEach(function(tuple){
         callback(tuple);
       });
     }
@@ -107,3 +108,22 @@ HashTable.prototype.forEach = function(callback) {
 };
 // Time complexity for forEach: linear ... O(n)
 
+HashTable.prototype.resize = function(newSize){
+  let temp_storage = this._storage;
+
+  this._size = newSize;
+  this._count = 0;
+  this._storage = new Array(newSize);
+
+  let currht = this;
+  temp_storage.forEach(function(bucket){
+    if (bucket) {
+      bucket.forEach(function(tuple){
+        for (let key in tuple){
+          currht.set(key, tuple[key]);
+        }
+      });
+    }
+  });
+}
+// Time complexity for resize: linear ... O(n)
