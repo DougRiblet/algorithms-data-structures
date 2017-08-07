@@ -30,84 +30,75 @@ function HashTable(capacity) {
 // Notes: In this implementation, _storage will be an array, each bucket will be
 // an array, and items inside buckets will be objects with single key-value pair
 
-// Optional helper method:
+// Optional helper method 'find':
+// (a) finds hash value for this key, points to correct bucket;
+// (b) determines if this key has already been stored; 
+//     - if yes, points to the existing matched object and its index in bucket;
+//     - if no, match and matchIndex will be undefined
 HashTable.prototype.find = function(key) {
-  // implement me...
-  return {
-    match: match,
-    bucket: bucket,
-    matchIndex: matchIndex
-  };
+  let index = simpleHash(key, this._size);
+  if (!this._storage[index]) { this._storage[index] = [] }
+  let match, matchIndex, bucket = this._storage[index];
+
+  for (let j=0; j<bucket.length; j++){
+    if (bucket[j].hasOwnProperty(key)){
+      match = bucket[j];
+      matchIndex = j;
+    }
+  }
+
+  return {match, bucket, matchIndex};
 };
 
 HashTable.prototype.set = function(key, value) {
-  let index = simpleHash(key, this._size);
-  let newObj = {};
-  newObj[key] = value;
-  if (!this._storage[index]) {
-    this._storage[index] = [newObj]
+  let {match, bucket} = this.find(key);
+  if (match) {
+    match[key] = value;
   } else {
-    this._storage[index].push(newObj);
+    let newObj = {};
+    newObj[key] = value;
+    bucket.push(newObj)
+    this._count++;
+    // call resize function here if needed
   }
-  this.howmany++;
+  return this;
 };
 // Time complexity for set: amortized constant ... O(1) 
 // amortized = extra time if set requires hash table resizing
 
 HashTable.prototype.get = function(key) {
-  let index = simpleHash(key, this.capacity);
-  if (this._storage[index] !== undefined){
-    for (let x=0; x<this._storage[index].length; x++){
-      if (this._storage[index][x][0] === key) {
-        return this._storage[index][x][1];
-      }
-    }
-  }
+  let {match} = this.find(key);
+  return match ? match[key] : undefined;
 };
 // Time complexity for get: constant ... O(1)
 
 HashTable.prototype.has = function(key) {
-  let index = simpleHash(key, this.capacity);
-  if (this._storage[index] !== undefined){
-    for (let x=0; x<this._storage[index].length; x++){
-      if (this._storage[index][x][0] === key) {
-        return true;
-      }
-    }
-  }
-  return false;
+  return Boolean(this.find(key).match);
 };
 // Time complexity for has: constant ... O(1)
 
 HashTable.prototype.delete = function(key) {
-  let index = simpleHash(key, this.capacity);
-  if (this._storage[index] !== undefined){
-    for (let x=0; x<this._storage[index].length; x++){
-      if (this._storage[index][x][0] === key) {
-        this._storage[index].splice(x,1);
-        if (this._storage[index].length === 0) {
-          this._storage[index] = undefined;
-        }
-        this.howmany--;
-        return true;
-      }
-    }
+  let {match, bucket, matchIndex} = this.find(key);
+  if (match){
+    bucket.splice(matchIndex,1);
+    this._count--;
+    // call resize function here if needed
   }
-  return false;
+  return Boolean(match);
 };
 // Time complexity for delete: constant ... O(1)
 
 HashTable.prototype.count = function() {
-  return this.howmany;
+  return this._count;
 };
 // Time complexity for count: constant ... O(1)
 
 HashTable.prototype.forEach = function(callback) {
   this._storage.forEach(function(bin){
-    if (bin !== undefined){
+    if (bin){
       bin.forEach(function(tuple){
         callback(tuple);
-      })
+      });
     }
   })
 };
