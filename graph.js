@@ -75,9 +75,24 @@ Graph.prototype.traverseDepthFirst = function(value, fn, visited={}, distance=0)
     }
   }
 };
-// Time complexity:
+// Time complexity for traverseDepthFirst: linear ... O(n)
 
 Graph.prototype.traverseBreadthFirst = function(value, fn) {
-  // implement me...
+  let fnQueue = [value];
+  let visited = {};
+  visited[value] = 0;
+  while(fnQueue.length > 0){
+    let curValue = fnQueue.shift();
+    fn(curValue, visited[curValue]);
+    for (let x=0; x<this._nodes[curValue].length; x++){
+      let curNext = this._nodes[curValue][x];
+      if (!visited.hasOwnProperty(curNext)){
+        fnQueue.push(curNext);
+        visited[curNext] = visited[curValue]+1;
+      }
+    }
+  }
 };
-// Time complexity:
+// Time complexity for traverseBreadthFirst: linear ... O(n)
+
+
