@@ -137,6 +137,38 @@ BinarySearchTree.prototype.traverseBreadthFirst = function(fn) {
 };
 // Time complexity for traverseBreadthFirst: linear ... O(n)
 
+// Serpentine Traversal = breadth-first with alternating directions
+// Visit the first level from left to right, the second level from 
+// right to left, third level from left to right, and so on
+// http://www.codewars.com/kata/binary-tree-serpentine-traversal/javascript
+
+
+function serpentineTree(node){
+  let queue = [node];
+  let holding = [];
+  let level = 1;
+  let answer = [];
+  
+  while (queue.length > 0){
+    let current = queue.pop();
+    answer.push(current.data);
+    if (level % 2 === 1){
+      if (current.left) {holding.push(current.left)}
+      if (current.right) {holding.push(current.right)}
+    } else if (level % 2 === 0){
+      if (current.right) {holding.push(current.right)}
+      if (current.left) {holding.push(current.left)}
+    }
+    if (queue.length === 0){
+      queue = queue.concat(holding);
+      holding = [];
+      level++;
+    }
+  }
+  
+  return answer;
+}
+
 // *************************
 // ******* CHECKING ********
 // *************************
