@@ -189,7 +189,6 @@ BinarySearchTree.prototype.checkIfValid = function () {
   }
   
   recursiveCheck(this, Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY);
-  
   return answer;
 };
 // Time complexity for checkIfValid: linear ... O(n)
@@ -230,7 +229,6 @@ BinarySearchTree.prototype.checkIfBalanced = function() {
   }
 
   recursiveDepthCheck(this, 0);
-
   return Math.max(...leafDepths) - Math.min(...leafDepths) <= 1;
 };
 // Time complexity for checkIfBalanced: linear ... O(n)
@@ -244,6 +242,7 @@ BinarySearchTree.prototype.checkIfPerfect = function(){
   if (this === null) { return true }
   let full = true;
   let depths = [];
+
   function traverse(nod,dep){
     if (!nod.left && !nod.right){
       depths.push(dep);
@@ -256,6 +255,7 @@ BinarySearchTree.prototype.checkIfPerfect = function(){
       traverse(nod.right,dep+1);
     }
   }
+  
   traverse(this,0);
   return full && (Math.max(...depths) - Math.min(...depths) === 0);
 };
@@ -335,6 +335,7 @@ BinarySearchTree.prototype.delete = function(value){
         par[dir] = nod.right;
         return;
       } else if (nod.left && nod.right){
+        // Just going left for new root, no attempt to balance
         if (!nod.left.left && !nod.left.right){
           nod.value = nod.left.value;
           nod.left = null;
@@ -373,8 +374,7 @@ BinarySearchTree.prototype.delete = function(value){
   }
   
   recursiveDelete(this, value, null, null);
-  return this;
-  
+  return this; 
 };
 // Time complexity for delete: logarithmic ... O(log(n))
 // Worst-case: approaches linear if BST highly unbalanced
