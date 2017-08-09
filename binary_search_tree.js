@@ -142,16 +142,14 @@ BinarySearchTree.prototype.traverseBreadthFirst = function(fn) {
 // right to left, third level from left to right, and so on
 // http://www.codewars.com/kata/binary-tree-serpentine-traversal/javascript
 
-
-function serpentineTree(node){
-  let queue = [node];
+BinarySearchTree.prototype.traverseSerpentine = function(fn) {
+  let queue = [this];
   let holding = [];
   let level = 1;
-  let answer = [];
-  
+
   while (queue.length > 0){
     let current = queue.pop();
-    answer.push(current.data);
+    fn(current);
     if (level % 2 === 1){
       if (current.left) {holding.push(current.left)}
       if (current.right) {holding.push(current.right)}
@@ -165,9 +163,33 @@ function serpentineTree(node){
       level++;
     }
   }
+
+};
+// function serpentineTree(node){
+//   let queue = [node];
+//   let holding = [];
+//   let level = 1;
+//   let answer = [];
   
-  return answer;
-}
+//   while (queue.length > 0){
+//     let current = queue.pop();
+//     answer.push(current.data);
+//     if (level % 2 === 1){
+//       if (current.left) {holding.push(current.left)}
+//       if (current.right) {holding.push(current.right)}
+//     } else if (level % 2 === 0){
+//       if (current.right) {holding.push(current.right)}
+//       if (current.left) {holding.push(current.left)}
+//     }
+//     if (queue.length === 0){
+//       queue = queue.concat(holding);
+//       holding = [];
+//       level++;
+//     }
+//   }
+  
+//   return answer;
+// }
 
 // *************************
 // ******* CHECKING ********
