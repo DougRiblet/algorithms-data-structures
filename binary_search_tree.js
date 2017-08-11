@@ -261,6 +261,31 @@ BinarySearchTree.prototype.checkIfPerfect = function(){
 };
 // Time complexity for checkIfPerfect: linear ... O(n)
 
+// Method: checkIdentical
+// http://www.codewars.com/kata/binary-tree-compare
+// Determine if this binary tree is identical in structure and value
+// to another binary tree
+// Note: this method won't work if other tree uses 'val' or 'data'
+// rather than 'value' as property name
+
+BinarySearchTree.prototype.checkIdentical = function(othertree){
+
+  function compare(bt1, bt2){
+    if (bt1 === null || bt2 === null) {
+      return bt1 === bt2;
+    } else {
+      return bt1.value === bt2.value && compare(bt1.left, bt2.left) && compare(bt1.right, bt2.right);
+    }
+  }
+
+  return compare(this, othertree);
+}
+// Time complexity for checkIdentical: linear ... O(n)
+
+// *************************
+// ******* DELETE **********
+// *************************
+
 // METHOD: delete
 // Remove node from binary search tree
 // (This can get tricky, especially if deleted node has two children)
