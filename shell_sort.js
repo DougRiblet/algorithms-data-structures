@@ -40,7 +40,8 @@ function shellSort(arr){
   }
 
   // helper function to generate sequence of intervals
-  // using formula 2^x-1 ==> [1, 3, 7, 15, 31, 63 ...]
+  //   using formula 2^x-1 ==> [1, 3, 7, 15, 31, 63 ...]
+  // https://en.wikipedia.org/wiki/Shellsort#Gap_sequences
   function generateSequence(num){
     let pool = [];
     let high = num / 2.1;
@@ -55,3 +56,4 @@ function shellSort(arr){
     return pool;
   }
 }
+// Time complexity for shell sort: quadratic ... O(n^2)
