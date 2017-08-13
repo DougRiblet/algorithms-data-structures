@@ -1,5 +1,6 @@
 
 function shellSort(arr){
+  let seq = generateSequence(arr.length);
 
 }
 
