@@ -37,20 +37,8 @@ function cocktailSort(input){
   }
   return input;
 }
-
-// function bubbleSort (input) {
-//   let cutoff = input.length-1;
-//   while (cutoff > 0) {
-//     let newco = 0;
-//     for (let x=0; x<cutoff; x++) {
-//       if (input[x] > input[x+1]) {
-//         let temp = input[x];
-//         input[x] = input[x+1];
-//         input[x+1] = temp;
-//         newco = x;
-//       }
-//     }
-//     cutoff = newco;
-//   }
-//   return input;
-// }
+// Time complexity for cocktail sort: quadratic ... O(n^2)
+// Time complexity for nearly sorted arrays approaches linear ... O(n)
+// Slightly more efficient than bubble sort because low values near
+//   end of unsorted array (aka 'turtles') get moved backward in fewer 
+//   passes; but still less efficient than merge sort or quick sort
