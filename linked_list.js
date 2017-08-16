@@ -123,6 +123,20 @@ LinkedList.prototype.removeTail = function(value) {
 };
 // Time complexity for removeTail without this.tail: linear ... O(n)
 
+// Method: hasCycle
+// Check if a linked list has a cycle or loop; return true or false
+// Cycle exists if some node’s 'next' points to a previous node in the list
+// https://www.hackerrank.com/challenges/detect-whether-a-linked-list-contains-a-cycle
+LinkedList.prototype.hasCycle = function() {
+  let t1 = this, t2 = this;
+  while (t2 && t2.next){
+    t1 = t1.next;
+    t2 = t2.next.next;
+    if (t1 === t2) { return true }
+  }
+  return false;
+}
+// Time complexity for hasCycle: linear ... O(n)
 
 // ========================================
 // === OPTIMIZATION: THIS.TAIL PROPERTY ===
